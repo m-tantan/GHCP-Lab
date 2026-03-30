@@ -183,12 +183,96 @@
       "title": "Github Copilot Agent 🤯"
     },
     {
-      "title": "Chat Mode Handoffs: Orchestrating Multi-Step Workflows",
-      "description": "**Handoffs** are a powerful feature that enable you to create guided, sequential workflows that transition between different chat modes with suggested next steps.\n\n### What Are Handoffs?\nHandoffs appear as interactive buttons after a chat response completes, allowing users to seamlessly move to the next mode with:\n- Relevant context preserved from the previous step\n- A pre-filled prompt tailored to the next workflow stage\n- Optional auto-submission for fully automated flows\n\n### The Power of Orchestration\nWe've built a complete workflow for feature development:\n\n1. **PRD Builder Mode** - Start with a brief feature idea\n   - AI asks clarifying questions\n   - Creates a detailed Product Requirements Document\n   - ↓ *Handoff button: \"Generate Tasks\"*\n\n2. **PRD to Tasks Mode** - Transform the PRD into actionable tasks\n   - Analyzes functional requirements\n   - Generates high-level parent tasks\n   - Breaks down into detailed sub-tasks\n   - ↓ *Handoff button: \"Process Tasks\"*\n\n3. **Process Tasks Mode** - Execute the implementation\n   - Helps implement each task step-by-step\n   - Provides code generation and guidance\n   - Validates implementation against PRD\n\n### Why This Matters\n- **No Context Loss** - Information flows seamlessly between modes\n- **Guided Experience** - Users follow a proven workflow without jumping between tools\n- **Iterative Refinement** - Each step builds on the previous one\n- **Reduced Cognitive Load** - One-click transitions vs manual copy-paste\n\n### Try It Out\nYou can see this orchestration in action by:\n1. Opening a custom chat mode file (e.g., `PRD-2🎬.chatmode.md`)\n2. Looking at the `handoffs` section in the YAML frontmatter\n3. Notice how each mode defines its next step\n\n**Pro Tip**: You can chain multiple handoffs together to create even longer workflows—imagine: Planning → Design → Implementation → Testing → Documentation!"
+      "file": "../cpp/mcp_server/alert_mcp_server.cpp",
+      "line": 1,
+      "title": "🆕 MCP: Give Copilot Live Tool Access",
+      "description": "# 🆕 Model Context Protocol (MCP) — Copilot with Superpowers\r\n\r\n**MCP** is a standardized protocol that lets Copilot call your own tools and APIs — not just read files, but *act* on live data. Think of it as USB-C for AI tools.\r\n\r\n## What You're Looking At\r\n\r\nThis is a C++ **MCP server** implementing JSON-RPC 2.0 over stdio — the raw protocol that all MCP SDKs abstract away. Great for understanding what's happening under the hood!\r\n\r\nIt exposes 3 tools:\r\n- `get_alerts(severity?)` — query the in-memory alert store\r\n- `get_alert_stats()` — count by severity\r\n- `create_alert(title, severity)` — add a new alert\r\n\r\n## Transport Choices\r\n\r\n| Transport | Best for |\r\n|---|---|\r\n| **Stdio** ⭐ | Local dev — VS Code spawns the server as a child process, zero config |\r\n| **HTTP Streamable** | Team/remote servers, production |\r\n| **SSE** *(legacy)* | Backward compatibility |\r\n\r\nC++ uses **Stdio** only (no official C++ MCP SDK yet — this implements the protocol directly).\r\n\r\n## 🎮 Try It\r\n\r\n1. Run the prompt: `Ctrl+Shift+P` → *Use Prompt* → `/MCP-Server-Builder`\r\n2. Follow the guided setup (includes compile instructions + nlohmann/json install).\r\n3. Then ask Copilot (Agent mode):\r\n```\r\nUsing the alert MCP tools, show me all critical alerts\r\nand suggest a remediation priority plan.\r\n```\r\n\r\n> **Pro Tip**: First run shows a tool-approval dialog — click *Allow*. You always control what Copilot can touch."
     },
     {
-      "title": "Create a Custom Chat Mode: PRD builder",
+      "title": "Chat Mode Handoffs: Orchestrating Multi-Step Workflows",
       "description": "Let's set up our own custom GitHub Copilot Chat Mode to accelerate creation of Product Requirements Documents (PRDs).\n\n**Goal**: Create a mode named **PRD builder** that loads the persona instructions so you can quickly draft structured PRDs from short prompts.\n\n### Steps\n1. Open the Copilot Chat panel (Ctrl + Alt + I).\n1. Click the mode dropdown (where you pick *Ask* / *Agent*). You probably noticed there are already two custom modes, let's create our own by selecting **Configure modes** (see screenshot below).\n\n    ![Configure Modes](./assets/ConfigureModes.png)\n\n1. In the configuration UI, click **Create a new custom mode**.\n\n    ![Create Mode](./assets/Create a new custom mode.png)\n\n1. Let's use the User level scope to share this across projects instead of being project specific\n\n    ![User Data Folder](./assets/UserDataFolder.png)    \n        \n1. Name it exactly: `PRD builder`.\n1. Open this file `PRD-Builder-Persona.md` ([link](./personas/PRD-Builder-Persona.md)) and copy its entire contents into the new mode's definition/instructions text area.\n1. (Optional) Pick an emoji/icon to make it stand out (🧱, 📄, 🚀).\n1. Save the mode.\n\nCongratulations, you've created a custom mode.\n\n\n### What This Gives You\n- Consistent PRD structure (intro, goals, user stories, requirements, non-goals, metrics)\n- Automatic reminder to ask clarifying questions first\n- Faster onboarding for teammates who can reuse the same mode\n\n### Pro Tips\n- You can store multiple personas (e.g., *Test Plan Builder*, *API Spec Writer*) the same way.\n- Version your persona files in Git so the team can improve them collaboratively.\n- If you update the persona text here, re-open the mode config and re-paste to sync.\n\nWhen you're done, try giving it a *very short* feature idea and see how it first asks you clarifying questions (that's by design!).\n\nGive it a spin—your future specs will thank you. ✨"
+    },
+    {
+      "title": "🆕 Plan the Alert System with /plan",
+      "description": "# 🆕 The /plan Agent (v1.109)\r\n\r\nOpen Chat (`Ctrl+Alt+I`) and type:\r\n\r\n```\r\n/plan I want to build a full alert management system with 3 components: an alert generator that creates randomized Alert structs, a classifier that categorizes them by severity and location, and a console UI for viewing and filtering alerts.\r\n```\r\n\r\nWatch the 4-phase workflow:\r\n1. **🔍 Discovery** – Analyzes your codebase and requirements\r\n2. **🤝 Alignment** – Asks clarifying questions before committing\r\n3. **📐 Design** – Proposes architecture and file structure\r\n4. **✨ Refinement** – Iterates until you approve\r\n\r\n**Pro Tip**: The agent won't start coding until alignment is complete — this prevents costly rework! 🎯"
+    },
+    {
+      "file": "../.github/skills/generate-alerts/SKILL.md",
+      "line": 1,
+      "title": "🆕 Agent Skills: /generate-alerts",
+      "description": "# 🆕 Agent Skills (GA in v1.109)\r\n\r\nYou're looking at a **SKILL.md** file — a reusable AI command.\r\n\r\nNotice the structure:\r\n1. **YAML Frontmatter** – name, description\r\n2. **Markdown Body** – Instructions Copilot follows\r\n\r\nSkills are loaded **on-demand** — Copilot only reads the full body when your request matches.\r\n\r\n## Try It\r\n\r\nOpen Chat (`Ctrl+Alt+I`) and type:\r\n```\r\n/generate-alerts 10\r\n```\r\n\r\nThe same skill works in VS Code, Copilot CLI, and coding agents — it's an open standard ([agentskills.io](https://agentskills.io)).\r\n\r\n**Pro Tip**: Build a library of skills for your team: `/run-tests`, `/deploy-staging`, `/generate-docs` 🚀"
+    },
+    {
+      "title": "🆕 Bootstrap Instructions with /init",
+      "description": "# 🆕 /init Command (v1.109)\r\n\r\n1. Open Chat (`Ctrl+Alt+I`)\r\n2. Type: `/init`\r\n\r\nCopilot will:\r\n🔍 Analyze your project structure (detects C++, headers, build system)\r\n📚 Discover existing AI conventions (AGENTS.md, skills)\r\n📝 Generate `copilot-instructions.md` with coding standards, build commands, and best practices\r\n\r\n✅ Great for onboarding and priming Copilot for your project.\r\n\r\n**Pro Tip**: Run `/init` after major architectural changes. Commit the generated file so the whole team benefits! 🎯"
+    },
+    {
+      "file": "../.github/agents/alert-expert.agent.md",
+      "line": 1,
+      "title": "🆕 Build Specialized Agents",
+      "description": "# 🆕 Custom Agent Control (v1.109)\r\n\r\nCheck out this agent's frontmatter:\r\n- `user-invocable: true` → Appears in agents dropdown\r\n- `disable-model-invocation: false` → Copilot can auto-select it\r\n\r\nNow open `../.github/agents/ui-builder.agent.md`:\r\n- `disable-model-invocation: true` → Manual selection only\r\n\r\nNew in v1.109:\r\n- **`agents:`** → Limit which subagents it can invoke\r\n- **`model:`** → Fallback model list: `['claude-sonnet-4', 'gpt-4']`\r\n\r\n## Try It\r\n1. Open Chat → agents dropdown → select **alert-expert**\r\n2. Ask: \"What are the classification rules for Critical vs Error severity?\"\r\n\r\n**Pro Tip**: Use `user-invocable: false` for internal agents only callable by other agents."
+    },
+    {
+      "file": "../.github/agents/orchestrator.agent.md",
+      "line": 1,
+      "title": "🆕 Wire an Agent Orchestra",
+      "description": "# 🆕 Agent Orchestration (v1.109)\r\n\r\nThis is a **conductor agent** — it delegates, never implements directly.\r\n\r\nCheck the frontmatter:\r\n```yaml\r\nagents: ['alert-expert', 'ui-builder']\r\n```\r\n\r\n❌ Anti-pattern: One mega-agent that does everything\r\n✅ Best practice: Conductor + specialists\r\n\r\n## Try It\r\n1. Select **orchestrator** from agents dropdown\r\n2. Ask: \"Build the alert generator and a console UI to display alerts.\"\r\n3. Watch it delegate to alert-expert and ui-builder\r\n\r\n**Pro Tip**: Think of orchestrators as project managers — they coordinate, not code! 🚀"
+    },
+    {
+      "title": "🆕 Parallel Subagents in Action",
+      "description": "# 🆕 Parallel Subagents (v1.109)\r\n\r\nSubagents now run **in parallel** — tasks that took 6 minutes sequentially now take 2!\r\n\r\n## Try It\r\nAsk the orchestrator:\r\n```\r\nBuild three things simultaneously:\r\n1. Alert generator creating random Alert structs\r\n2. Severity classifier categorizing by risk level\r\n3. Console dashboard with filtering\r\n```\r\n\r\nYou'll see **multiple active spinners** — expand each to see progress, tools, and status.\r\n\r\nEach subagent has its **own context window** — no pollution of your main chat.\r\n\r\n**Pro Tip**: Use parallel subagents for independent tasks; sequential for dependent ones. 🚀"
+    },
+    {
+      "title": "🆕 Test Harness with Agent Hooks",
+      "description": "# 🆕 Agent Hooks (v1.109)\r\n\r\nHooks run shell commands at key agent lifecycle points.\r\n\r\n## Setup\r\n1. Type `/hooks` in Chat\r\n2. Create a **Stop** hook with command: `g++ -o alert_system src/*.cpp && ./alert_system --test`\r\n\r\nNow the pattern is:\r\n1. ✍️ Write tests first\r\n2. 🤖 Let agent code autonomously\r\n3. ✅ Tests run automatically at session end\r\n4. 🔁 Agent self-corrects if tests fail\r\n\r\n## Hook Events\r\n| Event | Fires When |\r\n|-------|------------|\r\n| `SessionStart` | Session begins |\r\n| `Stop` | Session ends |\r\n| `PreToolUse` | Before any tool call |\r\n| `PostToolUse` | After any tool call |\r\n\r\nHooks work in VS Code, Claude Code, and Copilot CLI.\r\n\r\n**Pro Tip**: Use `PostToolUse` to auto-format code after edits! 🎯"
+    },
+    {
+      "title": "🆕 Steer the Agent Mid-Task",
+      "description": "# 🆕 Message Steering (v1.109)\r\n\r\nWhile an agent response is in progress, the Send button becomes a dropdown:\r\n\r\n1️⃣ **Steer with Message** — Redirect without canceling\r\nTry: \"Add color coding: Critical=red, Error=orange, Warning=yellow, Info=blue\"\r\n\r\n2️⃣ **Add to Queue** — Send after current task completes\r\n\r\n3️⃣ **Stop and Send** — Cancel and start fresh\r\n\r\nYou can drag queued messages to reorder them!\r\n\r\n| Scenario | Action |\r\n|----------|--------|\r\n| Needs adjustment | **Steer** |\r\n| Add follow-up work | **Queue** |\r\n| Wrong direction | **Stop** |\r\n\r\n**Pro Tip**: Use steering for refinement, queuing for sequential tasks. 🚀"
+    },
+    {
+      "title": "🆕 Remember Decisions with Copilot Memory",
+      "description": "# 🆕 Copilot Memory (v1.109)\r\n\r\nCopilot remembers your design decisions **across sessions**!\r\n\r\n## Enable It\r\n`github.copilot.chat.copilotMemory.enabled: true`\r\n\r\n## Teach Copilot\r\n```\r\nRemember that in this project:\r\n- Critical alerts display in red\r\n- All alerts use UTC timestamps (ISO8601)\r\n- Severity distribution: 40% Info, 30% Warning, 20% Error, 10% Critical\r\n```\r\n\r\n## Test It\r\n1. Start a **new chat session**\r\n2. Ask: \"Generate 5 sample alerts\"\r\n3. 🎯 Watch Copilot apply your conventions without being reminded!\r\n\r\nManage memories at [github.com/settings/copilot](https://github.com/settings/copilot).\r\n\r\n❌ Never store secrets!\r\n\r\n**Pro Tip**: Bootstrap all your conventions in one session at project start. 🎯"
+    },
+    {
+      "title": "🆕 Visualize with Mermaid Diagrams",
+      "description": "# 🆕 Mermaid Diagrams in Chat (v1.109)\r\n\r\nAsk Copilot:\r\n```\r\nCreate a Mermaid flowchart showing:\r\nAlert Generator → Severity Classifier → Status Manager → Console UI\r\nInclude decision nodes for severity routing.\r\n```\r\n\r\n🔍 **Alt + Scroll** to zoom | 🖱️ **Alt + Drag** to pan | 🖼️ Open in editor\r\n\r\nAlso try:\r\n- \"Create a sequence diagram of alert flow\"\r\n- \"Show alert lifecycle as a state diagram\"\r\n\r\nMermaid code is plain text — paste into GitHub READMEs, Notion, or Confluence.\r\n\r\n**Pro Tip**: Start broad, then refine. Copilot iterates on diagrams like code! 🚀"
+    },
+    {
+      "title": "🆕 Plugins & Marketplace — Share Your Copilot Stack",
+      "description": "So far you've customized Copilot with **custom agents**, **skills**, and **prompts** — but only for yourself or this project.\r\n\r\n💡 **What if your whole team could install the same agents and skills with a single command?**\r\n\r\nThat's exactly what the **Copilot CLI Plugin Marketplace** enables:\r\n\r\n- 📦 **Plugin** = a bundled package of agents + skills + MCP configs\r\n- 🏪 **Marketplace** = a Git repo that lists installable plugins\r\n- 🔗 **Distribution** = anyone with repo access installs with one command\r\n\r\nThis is how teams share Copilot customizations **internally** — no manual file copying, no documentation to follow, just one install command.\r\n\r\nLet's walk through how this repo is set up as a marketplace 👇"
+    },
+    {
+      "file": "../.github/plugin/marketplace.json",
+      "line": 1,
+      "title": "The Marketplace Manifest",
+      "description": "The heart of any plugin marketplace is a single file: **`.github/plugin/marketplace.json`**\r\n\r\nCopilot CLI looks for this file when you register a repo as a marketplace. It lists every plugin available to install, along with metadata for browsing.\r\n\r\nThis repo's marketplace (`ghcp-lab-marketplace`) lists 3 plugins:\r\n- `alert-toolkit` — alert analysis agent + triage skill\r\n- `code-reviewer` — code review agent + checklist skill\r\n- `learning-companion` — tutor agent + practice exercise skill\r\n\r\nEach `source` field is the path to the plugin directory, relative to the repo root.\r\n\r\n�� **Team tip**: Host this file in your org's internal tooling repo so everyone can browse and install the same curated agent set."
+    },
+    {
+      "file": "../plugins/alert-toolkit/plugin.json",
+      "line": 1,
+      "title": "Inside a Plugin",
+      "description": "Each plugin is a directory with a **`plugin.json`** manifest at its root.\r\n\r\nThis tells Copilot CLI:\r\n- The plugin's name and version\r\n- Where to find its **agents** (`.agent.md` files)\r\n- Where to find its **skills** (`SKILL.md` files)\r\n\r\nThe structure is identical to your project's `.github/agents/` and `.github/skills/` — the only difference is it's **packaged and installable**.\r\n\r\n🎯 Anything you can put in `.github/agents/` or `.github/skills/`, you can put in a plugin and share across your team."
+    },
+    {
+      "file": "../plugins/alert-toolkit/agents/alert-analyst.agent.md",
+      "line": 1,
+      "title": "Bundling Agents into a Plugin",
+      "description": "Agent files inside a plugin are **identical** to the agent files you've seen throughout this lab — same `.agent.md` format, same YAML frontmatter.\r\n\r\nOnce the plugin is installed, this agent is available in every Copilot CLI session automatically:\r\n```sh\r\ncopilot plugin install alert-toolkit@ghcp-lab-marketplace\r\n```\r\n\r\nThen just use it:\r\n```\r\nAnalyze these alerts for anomaly patterns\r\n```\r\n\r\n⚡ **Precedence**: Project-level agents (`.github/agents/`) always win over plugin agents with the same name — so teams can always override a shared plugin locally."
+    },
+    {
+      "file": "../plugins/alert-toolkit/skills/triage-alerts/SKILL.md",
+      "line": 1,
+      "title": "Bundling Skills into a Plugin",
+      "description": "Skills inside a plugin use the same `SKILL.md` format and are invoked the same way — with `/skill-name` in a session.\r\n\r\nAfter installing `alert-toolkit`, the skill is immediately available:\r\n```\r\n/triage-alerts from recent incidents\r\n```\r\n\r\n📦 **What a plugin can bundle:**\r\n- **Agents** — domain experts, workflow automation\r\n- **Skills** — slash commands for repeatable tasks\r\n- **MCP server configs** — connect to APIs, databases, tools\r\n- **Hooks** — auto-run actions on events\r\n\r\nSee `plugins/` at the repo root for all 3 example plugins in this lab."
+    },
+    {
+      "title": "⚠️ Registering a Marketplace",
+      "description": "⚠️ **Important**: Marketplace registration runs in a **regular terminal — NOT inside a Copilot CLI session**.\r\n\r\nOpen PowerShell / bash outside the CLI, then:\r\n\r\n**1 — Register the marketplace:**\r\n```sh\r\n# From a GitHub repo\r\ncopilot plugin marketplace add OWNER/ghcp-lab\r\n\r\n# Or from a local clone (use an absolute path)\r\ncopilot plugin marketplace add C:\\path\\to\\ghcp-lab\r\n```\r\n\r\n**2 — Browse available plugins:**\r\n```sh\r\ncopilot plugin marketplace browse ghcp-lab-marketplace\r\n```\r\n\r\n**3 — Install a plugin:**\r\n```sh\r\ncopilot plugin install alert-toolkit@ghcp-lab-marketplace\r\n```\r\n\r\nYou only register once. After that, every plugin in that marketplace is always available to install."
+    },
+    {
+      "title": "Using Installed Plugins",
+      "description": "Once installed, plugin agents and skills appear alongside your project's own customizations — automatically.\r\n\r\nVerify installation (outside CLI):\r\n```sh\r\ncopilot plugin list\r\n```\r\n\r\nInside a Copilot CLI session, confirm they loaded:\r\n```\r\n/agent\r\n/skills list\r\n```\r\n\r\n**Then use them naturally in any session:**\r\n```\r\nAnalyze these alerts for patterns\r\n/triage-alerts from the last 24 hours\r\n```\r\n\r\n🏢 **Ship this to your team in 3 steps:**\r\n1. Create a shared repo with your agents, skills, and `marketplace.json`\r\n2. Share one command: `copilot plugin marketplace add YOUR-ORG/copilot-tools`\r\n3. Everyone installs the plugins they need — same tools, consistent behavior\r\n\r\n📖 [Copilot CLI Plugin Reference](https://docs.github.com/en/copilot/reference/cli-plugin-reference)"
     },
     {
       "file": "src/Program.cpp",

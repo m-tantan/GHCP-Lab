@@ -1,0 +1,37 @@
+{
+  "name": "ghcp-lab-marketplace",
+  "owner": {
+    "name": "GHCP Lab",
+    "email": "ghcp-lab@example.com"
+  },
+  "metadata": {
+    "description": "Demo plugin marketplace for the GitHub Copilot Lab. Contains example plugins showcasing agents, skills, and the plugin distribution system.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "alert-toolkit",
+      "description": "Alert analysis and triage tools for security event management. Includes an alert analyst agent and a triage skill for prioritizing incidents.",
+      "version": "1.0.0",
+      "source": "plugins/alert-toolkit",
+      "keywords": ["alerts", "security", "triage", "analysis"],
+      "category": "security"
+    },
+    {
+      "name": "code-reviewer",
+      "description": "Automated code review assistant with structured feedback and language-specific checklists. Catches bugs, security issues, and best practice violations.",
+      "version": "1.2.0",
+      "source": "plugins/code-reviewer",
+      "keywords": ["review", "quality", "security", "best-practices"],
+      "category": "developer-tools"
+    },
+    {
+      "name": "learning-companion",
+      "description": "Interactive learning companion for GitHub Copilot features. Provides guided tutoring and generates practice exercises for completions, inline chat, agents, and more.",
+      "version": "0.5.0",
+      "source": "plugins/learning-companion",
+      "keywords": ["learning", "education", "copilot", "exercises"],
+      "category": "education"
+    }
+  ]
+}

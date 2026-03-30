@@ -147,7 +147,7 @@ export const userEvents: UserEvent[] = [
   },
 ];
 
-const SUPER_SECRET_KEY_1 = "1";
-const SECRET_2 = "2";
-const SECRETS = "3";
-const SEKRET = "4";
+const SUPER_SECRET_KEY_1 = "You";
+const SECRET_2 = "Got";
+const SEECRITS = "Rick";
+const SEKRET = "Rolled!";

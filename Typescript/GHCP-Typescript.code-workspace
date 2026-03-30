@@ -8,6 +8,9 @@
     "files.exclude": {
       "**/dotNet": true
     },
+    "chat.promptFilesLocations": {
+      "../.github/prompts": true,
+    },
     // For those intrigued while giving this lecture and walking around - 
     // having a certain color pop up allows me to see the track the user picked from afar
     "workbench.colorCustomizations": {
